@@ -23,7 +23,8 @@
             android:gravity="center"
             android:text="Step 1:\nClick here to \nSelect an Image"
             android:textColor="@android:color/primary_text_light"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:onClick="selectImage"/>
     </RelativeLayout>
 
 
@@ -34,7 +35,8 @@
         android:layout_weight=".4"
         android:gravity="center"
         android:text="Step 2:\nEnter a message\nor a password here"
-        android:textColor="@android:color/primary_text_light" />
+        android:textColor="@android:color/primary_text_light"
+        android:onClick="inputBox"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -55,7 +57,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Encode"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:onClick="encodeMessage"/>
 
         <Button
             android:id="@+id/decodeButton"
@@ -63,7 +66,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Decode"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:onClick="decodeMessage"/>
 
         <Button
             android:id="@+id/shareButton"
@@ -71,7 +75,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Share"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:enabled="false"
+            android:onClick="shareMessage"/>
 
     </LinearLayout>
 </LinearLayout>
