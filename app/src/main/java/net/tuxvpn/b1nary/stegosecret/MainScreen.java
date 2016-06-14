@@ -1,6 +1,9 @@
 package net.tuxvpn.b1nary.stegosecret;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.sourceforge.openstego.*;
+import net.sourceforge.openstego.OpenStegoCmd;
+import net.sourceforge.openstego.util.PluginManager;
+
+import java.io.InputStream;
 
 
 public class MainScreen extends AppCompatActivity {
     private static final String TAG = "StegoSecret";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +32,17 @@ public class MainScreen extends AppCompatActivity {
 
     //step 1
     public void selectImage(View view) {
+
+        /*
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, 0);
+
+        */
+
+        Intent pickPhoto = new Intent();
+        pickPhoto.setType("image/*");
+        pickPhoto.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(pickPhoto, PICK_IMAGE);
+
     }
 
     //step 2
@@ -39,7 +53,23 @@ public class MainScreen extends AppCompatActivity {
 
     //step 3
     public void encodeMessage(View view) {
-
+        try {
+            PluginManager.loadPlugins();
+            String[] args = {
+                    "embed",
+                    "-a",
+                    "RandomLSB",
+                    "-mf",
+                    "/sdcard/secret.txt",
+                    "-cf",
+                    "/sdcard/testimage.png",
+                    "-sf",
+                    "/sdcard/testoutput.png"};
+            OpenStegoCmd.execute(args);
+        } catch (Exception e) {
+            Log.e(TAG, "OpenStego Failed with message:");
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     public void decodeMessage(View view) {
@@ -51,19 +81,26 @@ public class MainScreen extends AppCompatActivity {
     }
 
     //extra funcs
+
+    static final int PICK_IMAGE = 0;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch (requestCode) {
-            case 0:
+            case PICK_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    Uri selectedImage = imageReturnedIntent.getData();
                     try {
+                        InputStream imageStream = getContentResolver().openInputStream(imageReturnedIntent.getData());
+
+                        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+
                         ImageView stegoImage = (ImageView) findViewById(R.id.stegoImage);
                         TextView textView = (TextView) findViewById(R.id.step1);
+
                         if (stegoImage != null) {
                             stegoImage.setImageDrawable(null);
-                            stegoImage.setImageURI(selectedImage);
+                            stegoImage.setImageBitmap(imageBitmap);
                         } else {
                             throw new NullPointerException("Null imageView pointer.");
                         }
@@ -74,9 +111,13 @@ public class MainScreen extends AppCompatActivity {
                             throw new NullPointerException("Null textView pointer.");
                         }
 
+                        if (imageStream != null) {
+                            imageStream.close();
+                        }
+
                     } catch (Exception e) {
-                        Log.v(TAG, "Error! ");
-                        Log.v(TAG, e.getMessage());
+                        Log.e(TAG, "Error! ");
+                        Log.e(TAG, e.getMessage());
                     }
                 }
 
@@ -101,8 +142,8 @@ public class MainScreen extends AppCompatActivity {
                         }
 
                     } catch (Exception e) {
-                        Log.v(TAG, "Error! ");
-                        Log.v(TAG, e.getMessage());
+                        Log.e(TAG, "Error! ");
+                        Log.e(TAG, e.getMessage());
                     }
                 }
                 break;
