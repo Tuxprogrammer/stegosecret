@@ -13,8 +13,9 @@
         <ImageView
             android:id="@+id/stegoImage"
             android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:contentDescription="" />
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            />
 
         <TextView
             android:id="@+id/step1"

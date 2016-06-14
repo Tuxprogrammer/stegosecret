@@ -5,18 +5,24 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.sourceforge.openstego.*;
 
 
 public class MainScreen extends AppCompatActivity {
+    private static final String TAG = "StegoSecret";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
 
     }
 
@@ -29,7 +35,19 @@ public class MainScreen extends AppCompatActivity {
     //step 2
     //user inputs the string into the message box
     public void inputBox(View view) {
-
+        EditText editText = (EditText) view;
+        try {
+            if (editText != null) {
+                if (editText.getText().toString().equals("Step 2:\\nEnter a message\\nor a password here")) {
+                    editText.setText("");
+                }
+            } else {
+                throw new NullPointerException("Null EditText pointer.");
+            }
+        } catch (Exception e) {
+            Log.v(TAG, "Error! ");
+            Log.v(TAG, e.getMessage());
+        }
     }
 
     //step 3
@@ -49,18 +67,56 @@ public class MainScreen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
+        switch (requestCode) {
             case 0:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                    ((ImageView)findViewById(R.id.stegoImage)).setImageURI(selectedImage);
+                    try {
+                        ImageView stegoImage = (ImageView) findViewById(R.id.stegoImage);
+                        TextView textView = (TextView) findViewById(R.id.step1);
+                        if (stegoImage != null) {
+                            stegoImage.setImageDrawable(null);
+                            stegoImage.setImageURI(selectedImage);
+                        } else {
+                            throw new NullPointerException("Null imageView pointer.");
+                        }
+
+                        if (textView != null) {
+                            textView.setText("");
+                        } else {
+                            throw new NullPointerException("Null textView pointer.");
+                        }
+
+                    } catch (Exception e) {
+                        Log.v(TAG, "Error! ");
+                        Log.v(TAG, e.getMessage());
+                    }
                 }
 
                 break;
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                    ((ImageView)findViewById(R.id.stegoImage)).setImageURI(selectedImage);
+                    try {
+                        ImageView stegoImage = (ImageView) findViewById(R.id.stegoImage);
+                        TextView textView = (TextView) findViewById(R.id.step1);
+                        if (stegoImage != null) {
+                            stegoImage.setImageDrawable(null);
+                            stegoImage.setImageURI(selectedImage);
+                        } else {
+                            throw new NullPointerException("Null imageView pointer.");
+                        }
+
+                        if (textView != null) {
+                            textView.setEnabled(false);
+                        } else {
+                            throw new NullPointerException("Null textView pointer.");
+                        }
+
+                    } catch (Exception e) {
+                        Log.v(TAG, "Error! ");
+                        Log.v(TAG, e.getMessage());
+                    }
                 }
                 break;
         }
