@@ -35,19 +35,7 @@ public class MainScreen extends AppCompatActivity {
     //step 2
     //user inputs the string into the message box
     public void inputBox(View view) {
-        EditText editText = (EditText) view;
-        try {
-            if (editText != null) {
-                if (editText.getText().toString().equals("Step 2:\\nEnter a message\\nor a password here")) {
-                    editText.setText("");
-                }
-            } else {
-                throw new NullPointerException("Null EditText pointer.");
-            }
-        } catch (Exception e) {
-            Log.v(TAG, "Error! ");
-            Log.v(TAG, e.getMessage());
-        }
+
     }
 
     //step 3

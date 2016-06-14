@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
+            android:background="@drawable/light_border"
             />
 
         <TextView
@@ -35,9 +36,10 @@
         android:layout_height="0dp"
         android:layout_weight=".4"
         android:gravity="center"
-        android:text="Step 2:\nEnter a message\nor a password here"
-        android:textColor="@android:color/primary_text_light"
-        android:onClick="inputBox"/>
+        android:hint="Step 2:\nEnter a message\nor a password here"
+        android:textColorHint="@android:color/primary_text_light"
+        android:onClick="inputBox"
+        android:background="@drawable/medium_border"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -50,7 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".15"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/dark_border">
 
         <Button
             android:id="@+id/encodeButton"
