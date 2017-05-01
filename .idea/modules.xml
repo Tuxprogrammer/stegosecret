@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/StegoSecret.iml" filepath="$PROJECT_DIR$/StegoSecret.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stegosecret.iml" filepath="$PROJECT_DIR$/stegosecret.iml" />
     </modules>
   </component>
 </project>
