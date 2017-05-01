@@ -1,0 +1,3 @@
+[submodule "openstego"]
+	path = openstego
+	url = https://github.com/syvaidya/openstego.git
